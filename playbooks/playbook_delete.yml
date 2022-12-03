@@ -1,8 +1,14 @@
 - hosts: webservers
 
   tasks:
-    - name: delete poetry
-      ansible.builtin.pip:
-        name: poetry
+    - name: delete nginx
+      ansible.builtin.apt:
+        name: nginx
         state: absent
+      become: yes
+
+    - name: install nginx
+      ansible.builtin.apt:
+        name: nginx
+        state: latest
       become: yes
