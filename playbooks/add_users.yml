@@ -1,0 +1,21 @@
+- hosts: webservers
+  tasks:
+    - name: add test users
+      ansible.builtin.user:
+        name: "{{ item.users }}"
+        state: present
+      loop:
+        - { users: jaime }
+        - { users: sansa }
+        - { users: robert }
+      become: yes
+
+    - name: add git config for user
+      ansible.builtin.template:
+        src: ../files/.gitconfig
+        dest: /home/{{ item.users }}/.gitconfig
+      loop:
+        - { users: sansa }
+        - { users: jaime }
+        - { users: robert }
+      become: yes
