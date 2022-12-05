@@ -1,0 +1,25 @@
+- hosts: webservers
+
+  vars:
+    server_name: WEB SERVER
+    server: "{{ server_name | upper }}"
+
+  tasks:
+    - name: install cowsay package
+      ansible.builtin.apt:
+        name: cowsay
+        state: present
+      become: yes
+    - name: run cowsay
+      ansible.builtin.shell: cowsay Hello, from web server!
+      register: cowsay_result
+
+    - name: debug cow
+      ansible.builtin.debug:
+        var: cowsay_result
+
+    - name: add cowsay in html template
+      ansible.builtin.template:
+        src: ../files/index2.html
+        dest: /home/seeu359/index2.html
+      with_items: cowsay_result.stdout_lines

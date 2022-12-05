@@ -1,0 +1,11 @@
+- hosts: webservers
+
+  vars:
+    text: myweb_server
+    server: "{{ text | upper }}"
+
+  tasks:
+    - name: use upper filter
+      ansible.builtin.template:
+        src: ../files/index2.html
+        dest: /home/seeu359/index2.html
